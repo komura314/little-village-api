@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'little-village-api.wsgi.application'
+WSGI_APPLICATION = 'api.wsgi.application'
 
 
 # Password validation

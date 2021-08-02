@@ -1,1 +1,1 @@
-web: gunicorn little-village-api.wsgi --log-file -
+web: gunicorn api.wsgi --log-file -
