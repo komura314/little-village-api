@@ -1,4 +1,6 @@
 # coding: utf-8
+import os
+import requests
 
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -14,5 +16,28 @@ class BlogViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def capture(self, request, pk=None):
-        res = 'test'
-        return Response(res)
+        url = self.getHatenaApiUrl('entry')
+        auth = self.getHatenaApiAuth()
+        res = requests.get(url, auth=auth)
+        return Response(res.text)
+
+    def getHatenaApiUrl(self, action):
+        HATENA_API_URL_HEADER = 'https://blog.hatena.ne.jp'
+        HATENA_API_USER = os.environ.get('HATENA_API_USER')
+        HATENA_API_BLOG = os.environ.get('HATENA_API_BLOG')
+        HATENA_API_URL_FUTTER = 'atom'
+
+        url = [
+            HATENA_API_URL_HEADER,
+            HATENA_API_USER,
+            HATENA_API_BLOG,
+            HATENA_API_URL_FUTTER,
+            action
+        ]
+        return os.path.join(*url)
+
+    def getHatenaApiAuth(self):
+        HATENA_API_USER = os.environ.get('HATENA_API_USER')
+        HATENA_API_KEY = os.environ.get('HATENA_API_KEY')
+
+        return (HATENA_API_USER, HATENA_API_KEY)
