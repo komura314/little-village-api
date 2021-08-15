@@ -1,6 +1,7 @@
 # coding: utf-8
 import os
 import requests
+import xmltodict
 
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -19,7 +20,9 @@ class BlogViewSet(viewsets.ModelViewSet):
         url = self.getHatenaApiUrl('entry')
         auth = self.getHatenaApiAuth()
         res = requests.get(url, auth=auth)
-        return Response(res.text)
+        dictData = xmltodict.parse(res.text, encoding='utf-8')
+        print(dictData)
+        return Response(dictData)
 
     def getHatenaApiUrl(self, action):
         HATENA_API_URL_HEADER = 'https://blog.hatena.ne.jp'
