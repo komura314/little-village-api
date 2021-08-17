@@ -8,4 +8,4 @@ from ..models import Entry
 class EntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ('title', 'body', 'created_at', 'status', 'author')
+        fields = '__all__'
