@@ -17,12 +17,11 @@ Including another URLconf
 # coding: utf-8
 
 from rest_framework import routers
-from api.src.views import UserViewSet, EntryViewSet, BlogViewSet
+from api.src.views import EntryViewSet, BlogViewSet
 from django.conf.urls import url, include
 from django.contrib import admin
 
 router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
 router.register(r'entries', EntryViewSet)
 router.register(r'blogs', BlogViewSet)
 
