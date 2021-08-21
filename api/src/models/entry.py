@@ -72,3 +72,5 @@ class Entry(models.Model):
 
     class Meta:
         db_table = 'entry'
+        verbose_name = '記事'
+        verbose_name_plural = '記事'
