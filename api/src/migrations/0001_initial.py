@@ -24,12 +24,13 @@ class Migration(migrations.Migration):
                 ('content_html', models.TextField(blank=True, default='', null=True, verbose_name='内容_HTML')),
                 ('draft', models.CharField(blank=True, choices=[('yes', '下書き'), ('no', '公開')],
                                            default='yes', max_length=10, null=True, verbose_name='下書き区分')),
-                ('published_at', models.DateTimeField(blank=True, null=True, verbose_name='公開日時')),
-                ('edited_at', models.DateTimeField(blank=True, null=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(blank=True, null=True, verbose_name='更新日時')),
+                ('updated_at', models.DateTimeField(blank=True, null=True, verbose_name='公開日時')),
+                ('edited_at', models.DateTimeField(blank=True, null=True, verbose_name='更新日時')),
             ],
             options={
                 'db_table': 'entry',
+                'verbose_name': '記事',
+                'verbose_name_plural': '記事'
             },
         ),
     ]

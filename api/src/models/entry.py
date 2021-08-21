@@ -54,17 +54,12 @@ class Entry(models.Model):
         blank=True,
         default='yes'
     )
-    published_at = models.DateTimeField(
+    updated_at = models.DateTimeField(
         verbose_name='公開日時',
         null=True,
         blank=True
     )
     edited_at = models.DateTimeField(
-        verbose_name='作成日時',
-        null=True,
-        blank=True
-    )
-    updated_at = models.DateTimeField(
         verbose_name='更新日時',
         null=True,
         blank=True

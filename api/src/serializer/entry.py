@@ -22,7 +22,6 @@ class EntryCreateAndUpdateSerializer(serializers.ModelSerializer):
             'content_md',
             'content_html',
             'draft',
-            'published_at',
-            'edited_at',
             'updated_at',
+            'edited_at',
         )

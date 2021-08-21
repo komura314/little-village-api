@@ -55,14 +55,11 @@ class EntryViewSet(viewsets.ModelViewSet):
             # draft取得
             draft = entry['app:control']['app:draft'] if 'app:control' in entry else ''
 
-            # published_at取得
-            published_at = entry['published'] if 'published' in entry else None
+            # updated_at取得
+            updated_at = entry['updated'] if 'updated' in entry else None
 
             # edited_at取得
             edited_at = entry['app:edited'] if 'app:edited' in entry else None
-
-            # updated_at取得
-            updated_at = entry['updated'] if 'updated' in entry else None
 
             # 更新用パラメータ
             param = {
@@ -73,9 +70,8 @@ class EntryViewSet(viewsets.ModelViewSet):
                 'content_md': content_md,
                 'content_html': content_html,
                 'draft': draft,
-                'published_at': published_at,
-                'edited_at': edited_at,
                 'updated_at': updated_at,
+                'edited_at': edited_at,
             }
 
             entry = Entry.objects.filter(
