@@ -54,6 +54,12 @@ class Entry(models.Model):
         blank=True,
         default='yes'
     )
+    deleted_at = models.DateTimeField(
+        verbose_name='削除日時',
+        null=True,
+        blank=True,
+        default=None
+    )
     updated_at = models.DateTimeField(
         verbose_name='公開日時',
         null=True,

@@ -24,6 +24,7 @@ class Migration(migrations.Migration):
                 ('content_html', models.TextField(blank=True, default='', null=True, verbose_name='内容_HTML')),
                 ('draft', models.CharField(blank=True, choices=[('yes', '下書き'), ('no', '公開')],
                                            default='yes', max_length=10, null=True, verbose_name='下書き区分')),
+                ('deleted_at', models.DateTimeField(blank=True, default=None, null=True, verbose_name='削除日時')),
                 ('updated_at', models.DateTimeField(blank=True, null=True, verbose_name='公開日時')),
                 ('edited_at', models.DateTimeField(blank=True, null=True, verbose_name='更新日時')),
             ],
