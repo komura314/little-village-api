@@ -4,6 +4,8 @@ import os
 import requests
 import xmltodict
 
+
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -21,6 +23,13 @@ class EntryViewSet(viewsets.ModelViewSet):
         url = self.getHatenaApiUrl('entry')
         auth = self.getHatenaApiAuth()
         hatena_entry_ids = []
+        response = {
+            'created_count': 0,
+            'updated_count': 0,
+            'deleted_count': 0,
+            'failed_count': 0,
+            'failed_hatena_entry_ids': [],
+        }
 
         while url != '':
             # 連続で呼び出すの怖いので0.5秒間間を空ける
@@ -90,17 +99,24 @@ class EntryViewSet(viewsets.ModelViewSet):
 
                 if not entry:
                     # 新規作成
+                    mode = 'create'
                     serializer = EntryCreateAndUpdateSerializer(data=param)
+
                 else:
                     # 更新
+                    mode = 'update'
                     serializer = EntryCreateAndUpdateSerializer(
                         entry, data=param)
 
                 if serializer.is_valid():
                     serializer.save()
-                    print('valid-OK')
+                    if mode == 'create':
+                        response['created_count'] = response['created_count'] + 1
+                    else:
+                        response['updated_count'] = response['updated_count'] + 1
                 else:
-                    print('valid-NG')
+                    response['failed_count'] = response['failed_count'] + 1
+                    response['failed_hatena_entry_ids'].append(hatena_entry_id)
 
             # 次のURLを取得
             url = ''
@@ -113,10 +129,10 @@ class EntryViewSet(viewsets.ModelViewSet):
                                     url = link['@href']
 
         # はてなIDが存在しなければ論理削除
-        delete_count = Entry.objects.exclude(
+        response['deleted_count'] = Entry.objects.exclude(
             hatena_entry_id__in=hatena_entry_ids).delete()
 
-        return Response(delete_count)
+        return Response(response, status.HTTP_200_OK)
 
     def getHatenaApiUrl(self, action):
         HATENA_API_URL_HEADER = 'https://blog.hatena.ne.jp'
