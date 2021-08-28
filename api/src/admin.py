@@ -11,4 +11,8 @@ class Entry(admin.ModelAdmin):
         'title',
         'updated_at',
         'edited_at',
+        'deleted_at'
     )
+
+    def get_queryset(self, request):
+        return self.model.entire.all()

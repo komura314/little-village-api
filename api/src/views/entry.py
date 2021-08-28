@@ -20,10 +20,12 @@ class EntryViewSet(viewsets.ModelViewSet):
     def capture(self, request):
         url = self.getHatenaApiUrl('entry')
         auth = self.getHatenaApiAuth()
+        hatena_entry_ids = []
 
         while url != '':
             # 連続で呼び出すの怖いので0.5秒間間を空ける
             time.sleep(0.5)
+
             hatena_list = requests.get(url, auth=auth)
             dict_data = xmltodict.parse(hatena_list.text, encoding='utf-8')
             entries = []
@@ -37,6 +39,8 @@ class EntryViewSet(viewsets.ModelViewSet):
                 # hatena_entry_id取得
                 hatena_entry_id = entry['id'][
                     entry['id'].rfind('-') + 1:] if 'id' in entry else ''
+
+                hatena_entry_ids.append(hatena_entry_id)
 
                 # category取得
                 if 'category' in entry:
@@ -108,7 +112,11 @@ class EntryViewSet(viewsets.ModelViewSet):
                                 if link['@rel'] == 'next':
                                     url = link['@href']
 
-        return Response(entries)
+        # はてなIDが存在しなければ論理削除
+        delete_count = Entry.objects.exclude(
+            hatena_entry_id__in=hatena_entry_ids).delete()
+
+        return Response(delete_count)
 
     def getHatenaApiUrl(self, action):
         HATENA_API_URL_HEADER = 'https://blog.hatena.ne.jp'
