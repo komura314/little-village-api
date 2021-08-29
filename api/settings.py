@@ -56,6 +56,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'api.urls'
 
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'api.src.utiles.handler.custom_exception_handler'
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
