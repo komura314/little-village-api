@@ -17,6 +17,7 @@ class EntryCreateAndUpdateSerializer(serializers.ModelSerializer):
         fields = (
             'entry_id',
             'hatena_entry_id',
+            'category',
             'title',
             'summary',
             'content_md',
