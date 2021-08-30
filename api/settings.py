@@ -58,7 +58,7 @@ ROOT_URLCONF = 'api.urls'
 
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'api.src.utiles.handler.custom_exception_handler'
+    'EXCEPTION_HANDLER': 'api.src.utils.handler.custom_exception_handler'
 }
 
 
